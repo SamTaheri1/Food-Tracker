@@ -36,6 +36,9 @@ public class CalorieTrackerApp {
                 System.out.print("Enter food name: ");
                 String foodName = keyboard.nextLine();
 
+                System.out.print("Enter category: ");
+                String category = keyboard.nextLine();
+
                 System.out.print("Enter calories: ");
                 int calories = InputHelper.readInt(keyboard);
 
@@ -55,7 +58,7 @@ public class CalorieTrackerApp {
                 double sugar = InputHelper.readDouble(keyboard);
 
                 Nutrients foodNutrients = new Nutrients(protein, carbs, fat, fiber, sugar);
-                FoodItem newFood = new FoodItem(foodName, calories, foodNutrients);
+                FoodItem newFood = new FoodItem(foodName, calories, foodNutrients, category);
 
                 chosenLog.addFood(newFood);
 
@@ -95,19 +98,24 @@ public class CalorieTrackerApp {
                 System.out.print("Enter source date to copy from: ");
                 String sourceDate = keyboard.nextLine();
                 DailyLog sourceLog = memory.findLog(sourceDate);
+
                 if (sourceLog == null) {
                     System.out.println("No log found for that date.");
-                } else {
+                }
+                else {
                     System.out.print("Enter target date to copy to: ");
                     String targetDate = keyboard.nextLine();
                     DailyLog targetLog = memory.findLog(targetDate);
+
                     if (targetLog == null) {
                         targetLog = new DailyLog(targetDate);
                         memory.addLog(targetLog);
                     }
+
                     for (FoodItem item : sourceLog.getFoodList()) {
                         targetLog.addFood(item);
                     }
+
                     System.out.println("Log copied successfully.");
                 }
             }
