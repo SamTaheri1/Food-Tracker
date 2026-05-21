@@ -20,6 +20,7 @@ class LogEditor {
 
         System.out.println("Foods in that day:");
         foundLog.displayShortFoods();
+
         System.out.print("Choose food number to edit: ");
         int foodNumber = InputHelper.readInt(keyboard);
 
@@ -32,6 +33,9 @@ class LogEditor {
 
         System.out.print("Enter new food name: ");
         String newName = keyboard.nextLine();
+
+        System.out.print("Enter new category: ");
+        String newCategory = keyboard.nextLine();
 
         System.out.print("Enter new calories: ");
         int newCalories = InputHelper.readInt(keyboard);
@@ -54,6 +58,7 @@ class LogEditor {
         Nutrients newNutrients = new Nutrients(newProtein, newCarbs, newFat, newFiber, newSugar);
 
         chosenFood.setFoodName(newName);
+        chosenFood.setCategory(newCategory);
         chosenFood.setCalories(newCalories);
         chosenFood.setNutrients(newNutrients);
 
