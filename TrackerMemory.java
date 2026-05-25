@@ -53,7 +53,11 @@ class TrackerMemory {
             ArrayList<FoodItem> foods = oneLog.getFoodList();
 
             for (int j = 0; j < foods.size(); j++) {
-                if (foods.get(j).getFoodName().toLowerCase().contains(name.toLowerCase())) {
+                String foodName = foods.get(j).getFoodName().toLowerCase();
+                String category = foods.get(j).getCategory().toLowerCase();
+                String search = name.toLowerCase();
+
+                if (foodName.contains(search) || category.contains(search)) {
                     System.out.println("\nDate: " + oneLog.getDate());
                     foods.get(j).displayFood();
                     found = true;
