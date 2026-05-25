@@ -17,7 +17,8 @@ public class CalorieTrackerApp {
             System.out.println("6. Delete a food from a day");
             System.out.println("7. Delete an entire day log");
             System.out.println("8. Copy a day's log to another day");
-            System.out.println("9. Exit");
+            System.out.println("9. View daily summary");
+            System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = InputHelper.readInt(keyboard);
@@ -120,6 +121,9 @@ public class CalorieTrackerApp {
                 }
             }
             else if (choice == 9) {
+                showDailySummary(memory, keyboard);
+            }
+            else if (choice == 10) {
                 programOn = false;
                 System.out.println("Program closed.");
             }
@@ -129,5 +133,35 @@ public class CalorieTrackerApp {
         }
 
         keyboard.close();
+    }
+
+    public static void showDailySummary(TrackerMemory memory, Scanner keyboard) {
+        System.out.print("Enter date for summary: ");
+        String date = keyboard.nextLine();
+
+        DailyLog log = memory.findLog(date);
+
+        if (log == null) {
+            System.out.println("No log found for that date.");
+            return;
+        }
+
+        if (log.getFoodList().size() == 0) {
+            System.out.println("That day has no foods saved.");
+            return;
+        }
+
+        System.out.println("\n===== Daily Summary =====");
+        System.out.println("Date: " + log.getDate());
+        System.out.println("Foods logged: " + log.getFoodList().size());
+        System.out.println("Total calories: " + log.getTotalCalories());
+        System.out.println("Total protein: " + log.getTotalProtein() + " g");
+        System.out.println("Total carbs: " + log.getTotalCarbs() + " g");
+        System.out.println("Total fat: " + log.getTotalFat() + " g");
+        System.out.println("Total fiber: " + log.getTotalFiber() + " g");
+        System.out.println("Total sugar: " + log.getTotalSugar() + " g");
+
+        double averageCalories = (double) log.getTotalCalories() / log.getFoodList().size();
+        System.out.println("Average calories per food: " + String.format("%.1f", averageCalories));
     }
 }
