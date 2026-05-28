@@ -30,4 +30,36 @@ class InputHelper {
             }
         }
     }
+
+    public static String readText(Scanner keyboard, String message) {
+        String text = "";
+
+        while (text.length() == 0) {
+            System.out.print(message);
+            text = keyboard.nextLine().trim();
+
+            if (text.length() == 0) {
+                System.out.println("Input cannot be empty.");
+            }
+        }
+
+        return text;
+    }
+
+    public static boolean readYesNo(Scanner keyboard, String message) {
+        while (true) {
+            System.out.print(message);
+            String answer = keyboard.nextLine().trim().toLowerCase();
+
+            if (answer.equals("yes") || answer.equals("y")) {
+                return true;
+            }
+            else if (answer.equals("no") || answer.equals("n")) {
+                return false;
+            }
+            else {
+                System.out.println("Please enter yes or no.");
+            }
+        }
+    }
 }
