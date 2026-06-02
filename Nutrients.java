@@ -33,11 +33,45 @@ class Nutrients {
         return sugar;
     }
 
+    public String getNutritionRating() {
+        int score = 0;
+
+        if (protein >= 10) {
+            score++;
+        }
+
+        if (fiber >= 3) {
+            score++;
+        }
+
+        if (sugar <= 10) {
+            score++;
+        }
+
+        if (fat <= 20) {
+            score++;
+        }
+
+        if (score >= 4) {
+            return "Very balanced";
+        }
+        else if (score == 3) {
+            return "Good";
+        }
+        else if (score == 2) {
+            return "Okay";
+        }
+        else {
+            return "Needs improvement";
+        }
+    }
+
     public void displayNutrients() {
         System.out.println("Protein: " + protein + " g");
         System.out.println("Carbs: " + carbs + " g");
         System.out.println("Fat: " + fat + " g");
         System.out.println("Fiber: " + fiber + " g");
         System.out.println("Sugar: " + sugar + " g");
+        System.out.println("Nutrition rating: " + getNutritionRating());
     }
 }
