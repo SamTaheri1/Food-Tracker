@@ -26,6 +26,22 @@ class DailyLog {
         foodList.remove(index);
     }
 
+    public FoodItem getHighestCalorieFood() {
+        if (foodList.size() == 0) {
+            return null;
+        }
+
+        FoodItem highestFood = foodList.get(0);
+
+        for (int i = 1; i < foodList.size(); i++) {
+            if (foodList.get(i).getCalories() > highestFood.getCalories()) {
+                highestFood = foodList.get(i);
+            }
+        }
+
+        return highestFood;
+    }
+
     public int getTotalCalories() {
         int total = 0;
         for (int i = 0; i < foodList.size(); i++) {
@@ -58,6 +74,22 @@ class DailyLog {
         return total;
     }
 
+    public double getTotalFiber() {
+        double total = 0;
+        for (int i = 0; i < foodList.size(); i++) {
+            total += foodList.get(i).getNutrients().getFiber();
+        }
+        return total;
+    }
+
+    public double getTotalSugar() {
+        double total = 0;
+        for (int i = 0; i < foodList.size(); i++) {
+            total += foodList.get(i).getNutrients().getSugar();
+        }
+        return total;
+    }
+
     public void displayShortFoods() {
         if (foodList.size() == 0) {
             System.out.println("No food added.");
@@ -65,7 +97,8 @@ class DailyLog {
         }
 
         for (int i = 0; i < foodList.size(); i++) {
-            System.out.println((i + 1) + ". " + foodList.get(i).getFoodName());
+            System.out.println((i + 1) + ". " + foodList.get(i).getFoodName()
+                    + " - " + foodList.get(i).getCategory());
         }
     }
 
@@ -82,6 +115,14 @@ class DailyLog {
             foodList.get(i).displayFood();
         }
 
+        FoodItem highestFood = getHighestCalorieFood();
+
+        if (highestFood != null) {
+            System.out.println("\nHighest calorie food: "
+                    + highestFood.getFoodName()
+                    + " (" + highestFood.getCalories() + " cal)");
+        }
+
         System.out.println("\nDaily totals:");
         System.out.println("Total calories: " + getTotalCalories());
         System.out.println("Total protein: " + getTotalProtein() + " g");
@@ -89,21 +130,5 @@ class DailyLog {
         System.out.println("Total fat: " + getTotalFat() + " g");
         System.out.println("Total fiber: " + getTotalFiber() + " g");
         System.out.println("Total sugar: " + getTotalSugar() + " g");
-    }
-
-    public double getTotalFiber() {
-        double total = 0;
-        for (int i = 0; i < foodList.size(); i++) {
-            total += foodList.get(i).getNutrients().getFiber();
-        }
-        return total;
-    }
-
-    public double getTotalSugar() {
-        double total = 0;
-        for (int i = 0; i < foodList.size(); i++) {
-            total += foodList.get(i).getNutrients().getSugar();
-        }
-        return total;
     }
 }
