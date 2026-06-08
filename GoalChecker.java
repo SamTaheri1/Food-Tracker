@@ -12,6 +12,7 @@ class GoalChecker {
         checkValue("Fiber", log.getTotalFiber(), goals.getFiberGoal(), "g");
         checkValue("Sugar", log.getTotalSugar(), goals.getSugarGoal(), "g");
 
+        showPercentReport(log, goals);
         showSimpleAdvice(log, goals);
     }
 
@@ -30,6 +31,28 @@ class GoalChecker {
         }
 
         System.out.printf("%-10s %6.1f / %.1f %s  ->  %s%n", label, actual, goal, unit, status);
+    }
+
+    private static void showPercentReport(DailyLog log, NutrientGoals goals) {
+        System.out.println("\n----- Goal Percent Report -----");
+
+        printPercent("Calories", log.getTotalCalories(), goals.getCalorieGoal());
+        printPercent("Protein", log.getTotalProtein(), goals.getProteinGoal());
+        printPercent("Carbs", log.getTotalCarbs(), goals.getCarbsGoal());
+        printPercent("Fat", log.getTotalFat(), goals.getFatGoal());
+        printPercent("Fiber", log.getTotalFiber(), goals.getFiberGoal());
+        printPercent("Sugar", log.getTotalSugar(), goals.getSugarGoal());
+    }
+
+    private static void printPercent(String label, double actual, double goal) {
+        if (goal == 0) {
+            System.out.println(label + ": No goal set.");
+            return;
+        }
+
+        double percent = (actual / goal) * 100;
+
+        System.out.println(label + ": " + String.format("%.1f", percent) + "% of goal reached");
     }
 
     private static void showSimpleAdvice(DailyLog log, NutrientGoals goals) {
