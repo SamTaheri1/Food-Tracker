@@ -31,37 +31,87 @@ class LogEditor {
 
         FoodItem chosenFood = foundLog.getFoodList().get(foodNumber - 1);
 
-        System.out.print("Enter new food name: ");
+        System.out.println("\nPress ENTER to keep the old value.");
+
+        System.out.print("New food name [" + chosenFood.getFoodName() + "]: ");
         String newName = keyboard.nextLine();
 
-        System.out.print("Enter new category: ");
+        if (newName.length() != 0) {
+            chosenFood.setFoodName(newName);
+        }
+
+        System.out.print("New category [" + chosenFood.getCategory() + "]: ");
         String newCategory = keyboard.nextLine();
 
-        System.out.print("Enter new calories: ");
-        int newCalories = InputHelper.readInt(keyboard);
+        if (newCategory.length() != 0) {
+            chosenFood.setCategory(newCategory);
+        }
 
-        System.out.print("Enter new protein (g): ");
-        double newProtein = InputHelper.readDouble(keyboard);
+        int newCalories = readOptionalInt(keyboard, "New calories [" + chosenFood.getCalories() + "]: ", chosenFood.getCalories());
 
-        System.out.print("Enter new carbs (g): ");
-        double newCarbs = InputHelper.readDouble(keyboard);
+        double newProtein = readOptionalDouble(keyboard, "New protein [" + chosenFood.getNutrients().getProtein() + "]: ", chosenFood.getNutrients().getProtein());
 
-        System.out.print("Enter new fat (g): ");
-        double newFat = InputHelper.readDouble(keyboard);
+        double newCarbs = readOptionalDouble(keyboard, "New carbs [" + chosenFood.getNutrients().getCarbs() + "]: ", chosenFood.getNutrients().getCarbs());
 
-        System.out.print("Enter new fiber (g): ");
-        double newFiber = InputHelper.readDouble(keyboard);
+        double newFat = readOptionalDouble(keyboard, "New fat [" + chosenFood.getNutrients().getFat() + "]: ", chosenFood.getNutrients().getFat());
 
-        System.out.print("Enter new sugar (g): ");
-        double newSugar = InputHelper.readDouble(keyboard);
+        double newFiber = readOptionalDouble(keyboard, "New fiber [" + chosenFood.getNutrients().getFiber() + "]: ", chosenFood.getNutrients().getFiber());
 
-        Nutrients newNutrients = new Nutrients(newProtein, newCarbs, newFat, newFiber, newSugar);
+        double newSugar = readOptionalDouble(keyboard, "New sugar [" + chosenFood.getNutrients().getSugar() + "]: ", chosenFood.getNutrients().getSugar());
 
-        chosenFood.setFoodName(newName);
-        chosenFood.setCategory(newCategory);
+        Nutrients updatedNutrients = new Nutrients(newProtein, newCarbs, newFat, newFiber, newSugar);
+
         chosenFood.setCalories(newCalories);
-        chosenFood.setNutrients(newNutrients);
+        chosenFood.setNutrients(updatedNutrients);
 
         System.out.println("Food log updated successfully.");
+    }
+
+    private static int readOptionalInt(Scanner keyboard, String message, int oldValue) {
+        while (true) {
+            try {
+                System.out.print(message);
+                String input = keyboard.nextLine();
+
+                if (input.length() == 0) {
+                    return oldValue;
+                }
+
+                int value = Integer.parseInt(input);
+
+                if (value < 0) {
+                    throw new NumberFormatException();
+                }
+
+                return value;
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Enter a valid whole number or press ENTER.");
+            }
+        }
+    }
+
+    private static double readOptionalDouble(Scanner keyboard, String message, double oldValue) {
+        while (true) {
+            try {
+                System.out.print(message);
+                String input = keyboard.nextLine();
+
+                if (input.length() == 0) {
+                    return oldValue;
+                }
+
+                double value = Double.parseDouble(input);
+
+                if (value < 0) {
+                    throw new NumberFormatException();
+                }
+
+                return value;
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Enter a valid number or press ENTER.");
+            }
+        }
     }
 }
