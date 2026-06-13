@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class NutrientGoals {
     private int calorieGoal;
     private double proteinGoal;
@@ -47,6 +49,30 @@ class NutrientGoals {
 
     public double getSugarGoal() {
         return sugarGoal;
+    }
+
+    public void updateGoals(Scanner keyboard) {
+        System.out.println("\n----- Update Nutrient Goals -----");
+
+        System.out.print("New calorie goal: ");
+        calorieGoal = InputHelper.readInt(keyboard);
+
+        System.out.print("New protein goal: ");
+        proteinGoal = InputHelper.readDouble(keyboard);
+
+        System.out.print("New carbs goal: ");
+        carbsGoal = InputHelper.readDouble(keyboard);
+
+        System.out.print("New fat goal: ");
+        fatGoal = InputHelper.readDouble(keyboard);
+
+        System.out.print("New fiber goal: ");
+        fiberGoal = InputHelper.readDouble(keyboard);
+
+        System.out.print("New sugar goal: ");
+        sugarGoal = InputHelper.readDouble(keyboard);
+
+        System.out.println("Goals updated successfully.");
     }
 
     public void displayGoals() {
