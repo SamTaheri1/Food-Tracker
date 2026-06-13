@@ -34,6 +34,25 @@ class TrackerMemory {
         return -1;
     }
 
+    public void displaySavedDates() {
+        if (allLogs.size() == 0) {
+            System.out.println("No saved dates yet.");
+            return;
+        }
+
+        System.out.println("\n----- Saved Dates -----");
+
+        for (int i = 0; i < allLogs.size(); i++) {
+            DailyLog log = allLogs.get(i);
+
+            System.out.println((i + 1) + ". " + log.getDate()
+                    + " | Foods: " + log.getFoodList().size()
+                    + " | Calories: " + log.getTotalCalories());
+        }
+
+        System.out.println("Total saved days: " + allLogs.size());
+    }
+
     public void displayAllLogs() {
         if (allLogs.size() == 0) {
             System.out.println("No logs saved.");
