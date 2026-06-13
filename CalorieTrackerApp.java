@@ -5,6 +5,7 @@ public class CalorieTrackerApp {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         TrackerMemory memory = new TrackerMemory();
+        NutrientGoals goals = new NutrientGoals();
         boolean programOn = true;
 
         while (programOn) {
@@ -18,7 +19,11 @@ public class CalorieTrackerApp {
             System.out.println("7. Delete an entire day log");
             System.out.println("8. Copy a day's log to another day");
             System.out.println("9. View daily summary");
-            System.out.println("10. Exit");
+            System.out.println("10. View saved dates");
+            System.out.println("11. View nutrient goals");
+            System.out.println("12. Update nutrient goals");
+            System.out.println("13. Check goals for a day");
+            System.out.println("14. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = InputHelper.readInt(keyboard);
@@ -82,7 +87,7 @@ public class CalorieTrackerApp {
                 memory.displayAllLogs();
             }
             else if (choice == 4) {
-                System.out.print("Enter food name to search: ");
+                System.out.print("Enter food name or category to search: ");
                 String searchWord = keyboard.nextLine();
                 memory.searchFood(searchWord);
             }
@@ -124,6 +129,28 @@ public class CalorieTrackerApp {
                 showDailySummary(memory, keyboard);
             }
             else if (choice == 10) {
+                memory.displaySavedDates();
+            }
+            else if (choice == 11) {
+                goals.displayGoals();
+            }
+            else if (choice == 12) {
+                goals.updateGoals(keyboard);
+            }
+            else if (choice == 13) {
+                System.out.print("Enter date to check goals: ");
+                String date = keyboard.nextLine();
+
+                DailyLog log = memory.findLog(date);
+
+                if (log == null) {
+                    System.out.println("No log found for that date.");
+                }
+                else {
+                    GoalChecker.checkGoals(log, goals);
+                }
+            }
+            else if (choice == 14) {
                 programOn = false;
                 System.out.println("Program closed.");
             }
