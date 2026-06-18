@@ -16,22 +16,56 @@ class LogDeleter {
             return;
         }
 
-        System.out.println("Foods in that day:");
-        foundLog.displayShortFoods();
+        System.out.println("\nDelete food by:");
+        System.out.println("1. Food number");
+        System.out.println("2. Food name");
+        int deleteChoice = InputHelper.readIntBetween(keyboard, "Choose option: ", 1, 2);
 
-        System.out.print("Choose food number to delete: ");
-        int foodNumber = InputHelper.readInt(keyboard);
+        int foodIndex = -1;
 
-        if (foodNumber < 1 || foodNumber > foundLog.getFoodList().size()) {
-            System.out.println("Invalid food number.");
-            return;
+        if (deleteChoice == 1) {
+            System.out.println("Foods in that day:");
+            foundLog.displayShortFoods();
+
+            int foodNumber = InputHelper.readIntBetween(
+                    keyboard,
+                    "Choose food number to delete: ",
+                    1,
+                    foundLog.getFoodList().size()
+            );
+
+            foodIndex = foodNumber - 1;
+        }
+        else {
+            String foodName = InputHelper.readText(keyboard, "Enter food name to delete: ");
+
+            for (int i = 0; i < foundLog.getFoodList().size(); i++) {
+                String currentName = foundLog.getFoodList().get(i).getFoodName();
+
+                if (currentName.equalsIgnoreCase(foodName)) {
+                    foodIndex = i;
+                }
+            }
+
+            if (foodIndex == -1) {
+                System.out.println("No food found with that exact name.");
+                return;
+            }
         }
 
-        FoodItem chosenFood = foundLog.getFoodList().get(foodNumber - 1);
+        FoodItem chosenFood = foundLog.getFoodList().get(foodIndex);
+
+        System.out.println("\nFood selected:");
+        chosenFood.displayFood();
+
+        String reason = InputHelper.readOptionalText(
+                keyboard,
+                "Reason for deleting this food: "
+        );
 
         boolean confirm = InputHelper.readYesNo(
                 keyboard,
-                "Are you sure you want to delete " + chosenFood.getFoodName() + "? "
+                "Confirm delete? "
         );
 
         if (!confirm) {
@@ -39,8 +73,14 @@ class LogDeleter {
             return;
         }
 
-        foundLog.removeFood(foodNumber - 1);
-        System.out.println(chosenFood.getFoodName() + " deleted successfully.");
+        foundLog.removeFood(foodIndex);
+
+        System.out.println("\nDelete receipt:");
+        System.out.println("Deleted food: " + chosenFood.getFoodName());
+        System.out.println("Deleted from date: " + foundLog.getDate());
+        System.out.println("Calories removed: " + chosenFood.getCalories());
+        System.out.println("Reason: " + reason);
+        System.out.println("Food deleted successfully.");
     }
 
     public static void deleteWholeLog(TrackerMemory memory, Scanner keyboard) {
@@ -55,12 +95,17 @@ class LogDeleter {
 
         DailyLog log = memory.findLog(date);
 
-        System.out.println("\nLog found:");
+        System.out.println("\nLog selected:");
         log.displayLog();
+
+        String reason = InputHelper.readOptionalText(
+                keyboard,
+                "Reason for deleting this day log: "
+        );
 
         boolean confirm = InputHelper.readYesNo(
                 keyboard,
-                "Are you sure you want to delete this entire day? "
+                "Confirm delete entire day? "
         );
 
         if (!confirm) {
@@ -69,6 +114,10 @@ class LogDeleter {
         }
 
         memory.removeLog(index);
+
+        System.out.println("\nDelete receipt:");
+        System.out.println("Deleted date: " + date);
+        System.out.println("Reason: " + reason);
         System.out.println("Entire day log deleted successfully.");
     }
 }
