@@ -62,4 +62,34 @@ class InputHelper {
             }
         }
     }
+
+    public static int readIntBetween(Scanner keyboard, String message, int min, int max) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int value = Integer.parseInt(keyboard.nextLine());
+
+                if (value < min || value > max) {
+                    System.out.println("Enter a number from " + min + " to " + max + ".");
+                }
+                else {
+                    return value;
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Enter a valid whole number.");
+            }
+        }
+    }
+
+    public static String readOptionalText(Scanner keyboard, String message) {
+        System.out.print(message);
+        String text = keyboard.nextLine().trim();
+
+        if (text.length() == 0) {
+            return "No reason given";
+        }
+
+        return text;
+    }
 }
