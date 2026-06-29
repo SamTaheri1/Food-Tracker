@@ -12,6 +12,7 @@ class GoalChecker {
         checkValue("Fiber", log.getTotalFiber(), goals.getFiberGoal(), "g");
         checkValue("Sugar", log.getTotalSugar(), goals.getSugarGoal(), "g");
 
+        showGoalScore(log, goals);
         showPercentReport(log, goals);
         showSimpleAdvice(log, goals);
     }
@@ -33,6 +34,55 @@ class GoalChecker {
         System.out.printf("%-10s %6.1f / %.1f %s  ->  %s%n", label, actual, goal, unit, status);
     }
 
+    private static void showGoalScore(DailyLog log, NutrientGoals goals) {
+        int score = 0;
+
+        if (isClose(log.getTotalCalories(), goals.getCalorieGoal())) {
+            score++;
+        }
+
+        if (isClose(log.getTotalProtein(), goals.getProteinGoal())) {
+            score++;
+        }
+
+        if (isClose(log.getTotalCarbs(), goals.getCarbsGoal())) {
+            score++;
+        }
+
+        if (isClose(log.getTotalFat(), goals.getFatGoal())) {
+            score++;
+        }
+
+        if (isClose(log.getTotalFiber(), goals.getFiberGoal())) {
+            score++;
+        }
+
+        if (log.getTotalSugar() <= goals.getSugarGoal()) {
+            score++;
+        }
+
+        System.out.println("\nGoal score: " + score + "/6");
+
+        if (score >= 5) {
+            System.out.println("Great day overall.");
+        }
+        else if (score >= 3) {
+            System.out.println("Decent day, but some goals need work.");
+        }
+        else {
+            System.out.println("This day is far from the goals.");
+        }
+    }
+
+    private static boolean isClose(double actual, double goal) {
+        if (goal == 0) {
+            return false;
+        }
+
+        double difference = Math.abs(actual - goal);
+        return difference <= goal * 0.20;
+    }
+
     private static void showPercentReport(DailyLog log, NutrientGoals goals) {
         System.out.println("\n----- Goal Percent Report -----");
 
@@ -51,7 +101,6 @@ class GoalChecker {
         }
 
         double percent = (actual / goal) * 100;
-
         System.out.println(label + ": " + String.format("%.1f", percent) + "% of goal reached");
     }
 
