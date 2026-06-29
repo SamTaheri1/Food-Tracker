@@ -33,6 +33,39 @@ class Nutrients {
         return sugar;
     }
 
+    public double getProteinCalories() {
+        return protein * 4;
+    }
+
+    public double getCarbCalories() {
+        return carbs * 4;
+    }
+
+    public double getFatCalories() {
+        return fat * 9;
+    }
+
+    public double getMacroCalories() {
+        return getProteinCalories() + getCarbCalories() + getFatCalories();
+    }
+
+    public void displayMacroBreakdown() {
+        double total = getMacroCalories();
+
+        System.out.println("Protein calories: " + String.format("%.1f", getProteinCalories()));
+        System.out.println("Carb calories: " + String.format("%.1f", getCarbCalories()));
+        System.out.println("Fat calories: " + String.format("%.1f", getFatCalories()));
+
+        if (total == 0) {
+            System.out.println("Macro percentage cannot be calculated.");
+            return;
+        }
+
+        System.out.println("Protein percent: " + String.format("%.1f", (getProteinCalories() / total) * 100) + "%");
+        System.out.println("Carb percent: " + String.format("%.1f", (getCarbCalories() / total) * 100) + "%");
+        System.out.println("Fat percent: " + String.format("%.1f", (getFatCalories() / total) * 100) + "%");
+    }
+
     public String getNutritionRating() {
         int score = 0;
 
@@ -73,5 +106,6 @@ class Nutrients {
         System.out.println("Fiber: " + fiber + " g");
         System.out.println("Sugar: " + sugar + " g");
         System.out.println("Nutrition rating: " + getNutritionRating());
+        displayMacroBreakdown();
     }
 }
