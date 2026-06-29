@@ -31,39 +31,53 @@ class LogEditor {
 
         FoodItem chosenFood = foundLog.getFoodList().get(foodNumber - 1);
 
+        String oldName = chosenFood.getFoodName();
+        String oldCategory = chosenFood.getCategory();
+        int oldCalories = chosenFood.getCalories();
+        double oldProtein = chosenFood.getNutrients().getProtein();
+        double oldCarbs = chosenFood.getNutrients().getCarbs();
+        double oldFat = chosenFood.getNutrients().getFat();
+        double oldFiber = chosenFood.getNutrients().getFiber();
+        double oldSugar = chosenFood.getNutrients().getSugar();
+
+        System.out.println("\nCurrent food information:");
+        chosenFood.displayFood();
+
         System.out.println("\nPress ENTER to keep the old value.");
 
-        System.out.print("New food name [" + chosenFood.getFoodName() + "]: ");
+        System.out.print("New food name [" + oldName + "]: ");
         String newName = keyboard.nextLine();
 
         if (newName.length() != 0) {
             chosenFood.setFoodName(newName);
         }
 
-        System.out.print("New category [" + chosenFood.getCategory() + "]: ");
+        System.out.print("New category [" + oldCategory + "]: ");
         String newCategory = keyboard.nextLine();
 
         if (newCategory.length() != 0) {
             chosenFood.setCategory(newCategory);
         }
 
-        int newCalories = readOptionalInt(keyboard, "New calories [" + chosenFood.getCalories() + "]: ", chosenFood.getCalories());
-
-        double newProtein = readOptionalDouble(keyboard, "New protein [" + chosenFood.getNutrients().getProtein() + "]: ", chosenFood.getNutrients().getProtein());
-
-        double newCarbs = readOptionalDouble(keyboard, "New carbs [" + chosenFood.getNutrients().getCarbs() + "]: ", chosenFood.getNutrients().getCarbs());
-
-        double newFat = readOptionalDouble(keyboard, "New fat [" + chosenFood.getNutrients().getFat() + "]: ", chosenFood.getNutrients().getFat());
-
-        double newFiber = readOptionalDouble(keyboard, "New fiber [" + chosenFood.getNutrients().getFiber() + "]: ", chosenFood.getNutrients().getFiber());
-
-        double newSugar = readOptionalDouble(keyboard, "New sugar [" + chosenFood.getNutrients().getSugar() + "]: ", chosenFood.getNutrients().getSugar());
+        int newCalories = readOptionalInt(keyboard, "New calories [" + oldCalories + "]: ", oldCalories);
+        double newProtein = readOptionalDouble(keyboard, "New protein [" + oldProtein + "]: ", oldProtein);
+        double newCarbs = readOptionalDouble(keyboard, "New carbs [" + oldCarbs + "]: ", oldCarbs);
+        double newFat = readOptionalDouble(keyboard, "New fat [" + oldFat + "]: ", oldFat);
+        double newFiber = readOptionalDouble(keyboard, "New fiber [" + oldFiber + "]: ", oldFiber);
+        double newSugar = readOptionalDouble(keyboard, "New sugar [" + oldSugar + "]: ", oldSugar);
 
         Nutrients updatedNutrients = new Nutrients(newProtein, newCarbs, newFat, newFiber, newSugar);
 
         chosenFood.setCalories(newCalories);
         chosenFood.setNutrients(updatedNutrients);
 
+        System.out.println("\n----- Edit Summary -----");
+        System.out.println("Old name: " + oldName);
+        System.out.println("New name: " + chosenFood.getFoodName());
+        System.out.println("Old category: " + oldCategory);
+        System.out.println("New category: " + chosenFood.getCategory());
+        System.out.println("Old calories: " + oldCalories);
+        System.out.println("New calories: " + chosenFood.getCalories());
         System.out.println("Food log updated successfully.");
     }
 
