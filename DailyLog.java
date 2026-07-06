@@ -42,6 +42,46 @@ class DailyLog {
         return highestFood;
     }
 
+    public int countLightFoods() {
+        int count = 0;
+
+        for (int i = 0; i < foodList.size(); i++) {
+            if (foodList.get(i).getCalories() < 300) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public int countHeavyFoods() {
+        int count = 0;
+
+        for (int i = 0; i < foodList.size(); i++) {
+            if (foodList.get(i).getCalories() >= 700) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public void displayCalorieGroups() {
+        System.out.println("\nCalorie groups:");
+        System.out.println("Light foods under 300 cal: " + countLightFoods());
+        System.out.println("Heavy foods 700 cal or more: " + countHeavyFoods());
+
+        if (countHeavyFoods() > countLightFoods()) {
+            System.out.println("This day has more heavy foods.");
+        }
+        else if (countLightFoods() > countHeavyFoods()) {
+            System.out.println("This day has more light foods.");
+        }
+        else {
+            System.out.println("Light and heavy foods are balanced.");
+        }
+    }
+
     public int getTotalCalories() {
         int total = 0;
         for (int i = 0; i < foodList.size(); i++) {
@@ -98,7 +138,8 @@ class DailyLog {
 
         for (int i = 0; i < foodList.size(); i++) {
             System.out.println((i + 1) + ". " + foodList.get(i).getFoodName()
-                    + " - " + foodList.get(i).getCategory());
+                    + " | " + foodList.get(i).getCategory()
+                    + " | " + foodList.get(i).getCalories() + " cal");
         }
     }
 
@@ -122,6 +163,8 @@ class DailyLog {
                     + highestFood.getFoodName()
                     + " (" + highestFood.getCalories() + " cal)");
         }
+
+        displayCalorieGroups();
 
         System.out.println("\nDaily totals:");
         System.out.println("Total calories: " + getTotalCalories());
