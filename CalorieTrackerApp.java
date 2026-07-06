@@ -23,52 +23,14 @@ public class CalorieTrackerApp {
             System.out.println("11. View nutrient goals");
             System.out.println("12. Update nutrient goals");
             System.out.println("13. Check goals for a day");
-            System.out.println("14. Exit");
+            System.out.println("14. Quick add snack");
+            System.out.println("15. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = InputHelper.readInt(keyboard);
 
             if (choice == 1) {
-                System.out.print("Enter date: ");
-                String day = keyboard.nextLine();
-
-                DailyLog chosenLog = memory.findLog(day);
-
-                if (chosenLog == null) {
-                    chosenLog = new DailyLog(day);
-                    memory.addLog(chosenLog);
-                }
-
-                System.out.print("Enter food name: ");
-                String foodName = keyboard.nextLine();
-
-                System.out.print("Enter category: ");
-                String category = keyboard.nextLine();
-
-                System.out.print("Enter calories: ");
-                int calories = InputHelper.readInt(keyboard);
-
-                System.out.print("Enter protein (g): ");
-                double protein = InputHelper.readDouble(keyboard);
-
-                System.out.print("Enter carbs (g): ");
-                double carbs = InputHelper.readDouble(keyboard);
-
-                System.out.print("Enter fat (g): ");
-                double fat = InputHelper.readDouble(keyboard);
-
-                System.out.print("Enter fiber (g): ");
-                double fiber = InputHelper.readDouble(keyboard);
-
-                System.out.print("Enter sugar (g): ");
-                double sugar = InputHelper.readDouble(keyboard);
-
-                Nutrients foodNutrients = new Nutrients(protein, carbs, fat, fiber, sugar);
-                FoodItem newFood = new FoodItem(foodName, calories, foodNutrients, category);
-
-                chosenLog.addFood(newFood);
-
-                System.out.println("Food added successfully.");
+                addFood(memory, keyboard);
             }
             else if (choice == 2) {
                 System.out.print("Enter date to view: ");
@@ -101,29 +63,7 @@ public class CalorieTrackerApp {
                 LogDeleter.deleteWholeLog(memory, keyboard);
             }
             else if (choice == 8) {
-                System.out.print("Enter source date to copy from: ");
-                String sourceDate = keyboard.nextLine();
-                DailyLog sourceLog = memory.findLog(sourceDate);
-
-                if (sourceLog == null) {
-                    System.out.println("No log found for that date.");
-                }
-                else {
-                    System.out.print("Enter target date to copy to: ");
-                    String targetDate = keyboard.nextLine();
-                    DailyLog targetLog = memory.findLog(targetDate);
-
-                    if (targetLog == null) {
-                        targetLog = new DailyLog(targetDate);
-                        memory.addLog(targetLog);
-                    }
-
-                    for (FoodItem item : sourceLog.getFoodList()) {
-                        targetLog.addFood(item);
-                    }
-
-                    System.out.println("Log copied successfully.");
-                }
+                copyDay(memory, keyboard);
             }
             else if (choice == 9) {
                 showDailySummary(memory, keyboard);
@@ -151,6 +91,9 @@ public class CalorieTrackerApp {
                 }
             }
             else if (choice == 14) {
+                quickAddSnack(memory, keyboard);
+            }
+            else if (choice == 15) {
                 programOn = false;
                 System.out.println("Program closed.");
             }
@@ -160,6 +103,100 @@ public class CalorieTrackerApp {
         }
 
         keyboard.close();
+    }
+
+    public static void addFood(TrackerMemory memory, Scanner keyboard) {
+        System.out.print("Enter date: ");
+        String day = keyboard.nextLine();
+
+        DailyLog chosenLog = memory.findLog(day);
+
+        if (chosenLog == null) {
+            chosenLog = new DailyLog(day);
+            memory.addLog(chosenLog);
+        }
+
+        System.out.print("Enter food name: ");
+        String foodName = keyboard.nextLine();
+
+        System.out.print("Enter category: ");
+        String category = keyboard.nextLine();
+
+        System.out.print("Enter calories: ");
+        int calories = InputHelper.readInt(keyboard);
+
+        System.out.print("Enter protein (g): ");
+        double protein = InputHelper.readDouble(keyboard);
+
+        System.out.print("Enter carbs (g): ");
+        double carbs = InputHelper.readDouble(keyboard);
+
+        System.out.print("Enter fat (g): ");
+        double fat = InputHelper.readDouble(keyboard);
+
+        System.out.print("Enter fiber (g): ");
+        double fiber = InputHelper.readDouble(keyboard);
+
+        System.out.print("Enter sugar (g): ");
+        double sugar = InputHelper.readDouble(keyboard);
+
+        Nutrients foodNutrients = new Nutrients(protein, carbs, fat, fiber, sugar);
+        FoodItem newFood = new FoodItem(foodName, calories, foodNutrients, category);
+
+        chosenLog.addFood(newFood);
+
+        System.out.println("Food added successfully.");
+    }
+
+    public static void quickAddSnack(TrackerMemory memory, Scanner keyboard) {
+        System.out.print("Enter date: ");
+        String day = keyboard.nextLine();
+
+        DailyLog chosenLog = memory.findLog(day);
+
+        if (chosenLog == null) {
+            chosenLog = new DailyLog(day);
+            memory.addLog(chosenLog);
+        }
+
+        System.out.print("Snack name: ");
+        String snackName = keyboard.nextLine();
+
+        System.out.print("Snack calories: ");
+        int calories = InputHelper.readInt(keyboard);
+
+        Nutrients snackNutrients = new Nutrients(0, 0, 0, 0, 0);
+        FoodItem snack = new FoodItem(snackName, calories, snackNutrients, "Snack");
+
+        chosenLog.addFood(snack);
+
+        System.out.println("Quick snack added.");
+    }
+
+    public static void copyDay(TrackerMemory memory, Scanner keyboard) {
+        System.out.print("Enter source date to copy from: ");
+        String sourceDate = keyboard.nextLine();
+        DailyLog sourceLog = memory.findLog(sourceDate);
+
+        if (sourceLog == null) {
+            System.out.println("No log found for that date.");
+            return;
+        }
+
+        System.out.print("Enter target date to copy to: ");
+        String targetDate = keyboard.nextLine();
+        DailyLog targetLog = memory.findLog(targetDate);
+
+        if (targetLog == null) {
+            targetLog = new DailyLog(targetDate);
+            memory.addLog(targetLog);
+        }
+
+        for (FoodItem item : sourceLog.getFoodList()) {
+            targetLog.addFood(item);
+        }
+
+        System.out.println("Log copied successfully.");
     }
 
     public static void showDailySummary(TrackerMemory memory, Scanner keyboard) {
