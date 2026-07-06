@@ -39,6 +39,22 @@ class FoodItem {
         return favorite;
     }
 
+    public String getCalorieLabel() {
+        if (calories < 300) {
+            return "Light";
+        }
+        else if (calories <= 700) {
+            return "Medium";
+        }
+        else {
+            return "Heavy";
+        }
+    }
+
+    public boolean isHighProtein() {
+        return nutrients.getProtein() >= 20;
+    }
+
     public void setFoodName(String foodName) {
         this.foodName = foodName;
     }
@@ -76,6 +92,8 @@ class FoodItem {
         System.out.println("Food name: " + foodName);
         System.out.println("Category: " + category);
         System.out.println("Calories: " + calories);
+        System.out.println("Calorie label: " + getCalorieLabel());
+        System.out.println("High protein: " + isHighProtein());
         System.out.println("Favorite: " + favorite);
         System.out.println("Note: " + note);
         nutrients.displayNutrients();
@@ -83,6 +101,6 @@ class FoodItem {
 
     @Override
     public String toString() {
-        return foodName + " (" + calories + " cal)";
+        return foodName + " (" + calories + " cal, " + getCalorieLabel() + ")";
     }
 }
